@@ -16,7 +16,6 @@ def encode_image(data, image_name):
 
     x = []
     for i in d:
-        print(i)
         # Pack into every channel, to be used as a checksum
         # if available when decoding.
         x.append((i, i, i))
