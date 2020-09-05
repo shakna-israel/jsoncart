@@ -16,6 +16,14 @@ That's a 1% original quality conversion.
 
 ---
 
+## Example
+
+![Example JSON file](https://git.sr.ht/~shakna/jsoncart/blob/master/test.png)
+
+The above image is the same as [test.json](https://git.sr.ht/~shakna/jsoncart/blob/master/test.json).
+
+---
+
 ## Library
 
 ### encode_image(data, image_name)
