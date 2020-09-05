@@ -1,8 +1,10 @@
+import base64
+import zlib
 import json
+
 import PIL.Image
 
 # TODO:
-# Maybe we could use zlib + base64 for smaller images?
 #
 # Currently we're just generating a fancy barcode.
 # Be nice if we could use some other more resilient recovery methods.
@@ -10,10 +12,11 @@ import PIL.Image
 
 def encode_image(data, image_name):
     s = json.dumps(data, sort_keys=True, separators=(',', ':'))
-    d = s.encode()
+    d = base64.b64encode(zlib.compress(s.encode()))
 
     x = []
     for i in d:
+        print(i)
         # Pack into every channel, to be used as a checksum
         # if available when decoding.
         x.append((i, i, i))
@@ -60,9 +63,8 @@ def decode_image(filename):
 
     # Convert back to data
     s = bytes(byte_pack)
-    d = s.decode()
+    d = zlib.decompress(base64.b64decode(s))
     return json.loads(d)
-
 
 if __name__ == "__main__":
     import argparse
