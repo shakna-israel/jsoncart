@@ -1,6 +1,13 @@
 import json
 import PIL.Image
 
+# TODO:
+# Maybe we could use zlib + base64 for smaller images?
+#
+# Currently we're just generating a fancy barcode.
+# Be nice if we could use some other more resilient recovery methods.
+# Like pallette matching, and pattern establishment, etc.
+
 def encode_image(data, image_name):
     s = json.dumps(data, sort_keys=True, separators=(',', ':'))
     d = s.encode()
