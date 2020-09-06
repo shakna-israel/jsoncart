@@ -122,7 +122,7 @@ if __name__ == "__main__":
         # Decoding
 
         if mimetypes.guess_type(args.input)[0] != 'image/png':
-            raise RuntimeError("Only supports PNG input.")
+            raise RuntimeError("Only supports PNG input, but got: {}".format(mimetypes.guess_type(args.input)[0]))
 
         data = decode_image(args.input)
         if args.output == None:
