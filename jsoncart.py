@@ -58,6 +58,11 @@ def decode_image(filename):
     except KeyError:
         checksum = False
     
+    # Convert to RGB from pallete image if we need to.
+    bit_test = im.getpixel((0, 0))
+    if isinstance(bit_test, int):
+        im = im.convert("RGB")
+
     byte_pack = []
 
     for i in range(im.width):
@@ -74,7 +79,7 @@ def decode_image(filename):
                 elif (255 - bit[1]) == bit[2]:
                     bits.append(bit[2])
             except TypeError:
-                bits.append(bit)
+                raise RuntimeError("Invalid data. This is a problem with jsoncart.")
 
         if len(bits) < 1:
             raise RuntimeError("Image damaged beyond repair at {}/{}.".format(i, im.width))
