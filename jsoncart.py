@@ -134,8 +134,11 @@ if __name__ == "__main__":
                 openFile.write(json.dumps(data, sort_keys=True, separators=(',', ':')))
     else:
         # Encoding
-        with open(args.input) as json_file:
-            data = json.load(json_file)
+        try:
+            with open(args.input) as json_file:
+                data = json.load(json_file)
+        except json.decoder.JSONDecodeError:
+            raise RuntimeError("Expected JSON input file, but got: {}".format(mimetypes.guess_type(args.input)[0]))
         
         if args.output == None:
             raise RuntimeError("Missing output file name.")
