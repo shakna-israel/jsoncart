@@ -17,7 +17,7 @@ import PIL.TiffImagePlugin
 def encode_image(data, image_name):
     # Encode our data
     s = json.dumps(data, sort_keys=True, separators=(',', ':'))
-    d = base64.b64encode(zlib.compress(s.encode()))
+    d = base64.urlsafe_b64encode(zlib.compress(s.encode()))
 
     # Convert to image data
     x = []
@@ -105,7 +105,7 @@ def decode_image(filename):
         # No adler checksum found.
         warnings.warn("Checksum stripped from data. Verification is best effort.")
 
-    d = zlib.decompress(base64.b64decode(s))
+    d = zlib.decompress(base64.urlsafe_b64decode(s))
     return json.loads(d)
 
 if __name__ == "__main__":
