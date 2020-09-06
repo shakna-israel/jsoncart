@@ -33,6 +33,7 @@ def encode_image(data, image_name):
 
     ifd = PIL.TiffImagePlugin.ImageFileDirectory_v2()
     ifd[TAG_DICT["UserComment"]] = zlib.adler32(d) & 0xffffffff
+    ifd[TAG_DICT["XPComment"]] = zlib.adler32(d) & 0xffffffff
 
     exif_out = io.BytesIO()
     ifd.save(exif_out)
@@ -56,7 +57,10 @@ def decode_image(filename):
     try:
         checksum = exif[TAG_DICT['UserComment']]
     except KeyError:
-        checksum = False
+        try:
+            checksum = exif[TAG_DICT['XPComment']]
+        except KeyError:
+            checksum = False
     
     # Convert to RGB from pallete image if we need to.
     bit_test = im.getpixel((0, 0))
