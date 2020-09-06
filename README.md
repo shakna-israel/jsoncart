@@ -6,7 +6,7 @@ Convert JSON to and from PNG with Python.
 
 This tool can be used as a commandline program, or as a Python library.
 
-It can encode JSON into a PNG file, with a large amount of recoverability that should survive most compression, so long as the _resolution_ remains intact. (Technically speaking, the width must remain intact.)
+It can encode JSON into a PNG file, with some recoverability that should survive most compression, so long as the _resolution_ and _format_ remains intact. (Technically speaking, the width must remain intact.)
 
 I have successfully decoded files converted via imagemagick like so:
 
