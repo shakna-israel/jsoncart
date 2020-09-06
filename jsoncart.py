@@ -78,6 +78,8 @@ def decode_image(filename):
                     bits.append(bit[0])
                 elif (255 - bit[1]) == bit[2]:
                     bits.append(bit[2])
+                elif bit[0] == bit[2]:
+                    bits.append(bit[0])
             except TypeError:
                 raise RuntimeError("Invalid data. This is a problem with jsoncart.")
 
