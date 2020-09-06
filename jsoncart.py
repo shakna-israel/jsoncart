@@ -24,21 +24,22 @@ def encode_image(data, image_name):
     for i in d:
         # Pack into every channel, to be used as a checksum
         # if available when decoding.
-        x.append((i, i, i))
+        x.append((i, 255 - i, i))
 
     im = PIL.Image.new(mode = "RGB", size = (len(x), len(x)))
 
+    # Build some EXIF data to store our adler checksum
     TAG_DICT = dict(((v, k) for k, v in PIL.ExifTags.TAGS.items()))
 
-    # Build some EXIF data to store our adler checksum
     ifd = PIL.TiffImagePlugin.ImageFileDirectory_v2()
     ifd[TAG_DICT["UserComment"]] = zlib.adler32(d) & 0xffffffff
+
     exif_out = io.BytesIO()
     ifd.save(exif_out)
     exif = b"Exif\x00\x00" + exif_out.getvalue()
 
     z = []
-    # Record identical rows, for checksumming.
+    # Record identical rows, for error recovery.
     for y in range(len(x)):
         z.extend(x)
 
@@ -66,12 +67,12 @@ def decode_image(filename):
         for ix in range(im.width):
             bit = im.getpixel((i, 0))
 
-            # Only if it passes a "checksum" append it:
+            # Basic error checking
             try:
-                if bit[0] == bit[1]:
+                if bit[0] == (255 - bit[1]):
                     bits.append(bit[0])
-                elif bit[1] == bit[2]:
-                    bits.append(bit[1])
+                elif (255 - bit[1]) == bit[2]:
+                    bits.append(bit[2])
             except TypeError:
                 bits.append(bit)
 
