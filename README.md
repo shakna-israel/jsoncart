@@ -36,7 +36,9 @@ If `image_name` does not end in `.png`, will result in Undefined Behaviour.
 
 Takes a `filename`, and if it can be read, returns a Python `dict`.
 
-As with all Python, expect it can raise all sorts of Exceptions. (I/O, memory, ValueError, etc.)
+As with all Python, expect it can raise all sorts of Exceptions. (I/O, memory, RuntimeError, ValueError, etc.)
+
+It can also raise warnings, that you can silence with a context manager (See [warnings](https://docs.python.org/3/library/warnings.html).)
 
 ---
 

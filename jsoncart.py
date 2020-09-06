@@ -77,7 +77,6 @@ def decode_image(filename):
                 bits.append(bit)
 
         if len(bits) < 1:
-            # TODO
             raise RuntimeError("Image damaged beyond repair at {}/{}.".format(i, im.width))
 
         # Get the average agreed byte representation.
